@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="default-wrap">
+        <div class="product-image-wrap">
+            <img src="{{ data.product.image_url }}">
+        </div>
+        <div class="product-desc-wrap">
+            <div class="flex-wrapper">
+            <div class="product-title-wrap">
+                {{ data.product.name }}
+            </div>
+            <div class="product-rating-wrap">
+                Рейтинг:&nbsp;
+                {% load filters %}
+                {% for star in data.product.rating|to_range %}
+                    {% load static %}
+                    <img class='star' src="{% static 'img/star.png' %}">
+                {% endfor %}
+                {% for star in data.product.rating|add:"-5"|multiply:-1|to_range %}
+                    {% load static %}
+                    <img class='star-faded' src="{% static 'img/star.png' %}">
+                {% endfor %}
+            </div>
+            </div>
+            <div class="flex-wrapper">
+                <div class="product-price-tag">
+                    {{ data.product.price|multiply:0.01 }} руб.
+                </div>
+                <a class="add-product-button">
+                    Добавить в корзину
+                </a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

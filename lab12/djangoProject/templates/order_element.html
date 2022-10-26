@@ -1,0 +1,11 @@
+<li class="selling">
+    <div class="order-element">
+        <div class="order-product-list">
+            {% for item in elem.products %}
+                <div class="order-product">
+                    <a class="pr-name" href="../product/{{ item.product.id }}">&ldquo;{{ item.product.name }}&ldquo;</a> X <span>{{ item.count }}</span>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</li>

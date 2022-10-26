@@ -1,0 +1,251 @@
+* {
+    font-family: "Calibri";
+    font-weight: 600;
+}
+
+body {
+    width: 100%;
+    height: 100%;
+    background: #E0E5FF;
+    margin: 0;
+}
+
+div.content-wrap {
+    margin: 32px auto 128px;
+    width: 90%;
+}
+
+div.main-title-wrap {
+    font-size: 28px;
+    line-height: 32px;
+    padding: 16px;
+    border-radius: 16px;
+    background: royalblue;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    box-shadow: 4px 4px 32px rgba(16, 16, 32, 20%);
+}
+
+div.main-title-wrap > a {
+    color: #EFEFFF;
+    text-decoration: none;
+    transition: all 500ms;
+}
+
+div.main-title-wrap > a:hover {
+    color: #D8FFFF;
+}
+
+div.products-wrap {
+    display: flex;
+    flex-direction: column;
+    margin: 48px 0 0;
+    row-gap: 20px;
+}
+
+div.product-item-wrap {
+    padding: 24px;
+    border-radius: 32px;
+    background: transparent;
+    transition: all 500ms;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    position: relative;
+}
+
+div.product-item-wrap > a {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+div.product-item-wrap:hover {
+    background: white;
+
+    box-shadow: 4px 4px 32px rgba(16, 16, 32, 20%);
+}
+
+div.product-item-image-wrap {
+    width: 256px;
+    height: 256px;
+    margin-right: 48px;
+    background: #EFEFFF;
+    border-radius: 32px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+}
+
+div.product-item-image-wrap > img {
+    width: auto;
+    height: 100%;
+}
+
+div.product-item-desc-wrap {
+    font-size: 36px;
+    line-height: 40px;
+    margin-top: 16px;
+    width: fit-content;
+}
+
+div.product-item-desc-wrap > span {
+    text-decoration: none;
+    color: #242436;
+}
+
+div.product-item-price-tag {
+    margin-top: 16px;
+    font-size: 20px;
+    line-height: 24px;
+    padding: 8px 16px;
+    border-radius: 40px;
+    background: royalblue;
+    width: fit-content;
+    color: #EFEFFF;
+}
+
+div.default-wrap {
+    padding: 32px 32px 64px;
+    border-radius: 32px;
+    background: white;
+    margin-top: 48px;
+    box-shadow: 4px 4px 32px rgba(16, 16, 32, 20%);
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+div.product-image-wrap {
+    width: 320px;
+    height: 320px;
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: 24px;
+    margin-right: 48px;
+    background: #EFEFFF;
+    flex-shrink: 0;
+}
+
+div.product-image-wrap > img{
+    width: auto;
+    height: 100%;
+}
+
+div.product-desc-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    min-height: 406px;
+}
+
+div.product-rating-wrap {
+    font-size: 28px;
+    line-height: 32px;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    column-gap: 12px;
+    margin-top: 24px;
+}
+
+div.product-title-wrap {
+    margin-top: 16px;
+    font-size: 48px;
+    line-height: 52px;
+    color: royalblue;
+}
+
+img.star {
+    width: 48px;
+    height: 48px;
+}
+
+img.star-faded {
+    width: 48px;
+    height: 48px;
+    opacity: 40%;
+}
+
+div.product-price-tag {
+    font-size: 32px;
+    line-height: 36px;
+    padding: 8px 32px;
+    border-radius: 40px;
+    background: royalblue;
+    width: fit-content;
+    color: #EFEFFF;
+}
+
+a.add-product-button {
+    margin-top: 24px;
+    padding: 16px 32px;
+    font-size: 24px;
+    line-height: 28px;
+    border-radius: 60px;
+    color: royalblue;
+    border: 1px solid royalblue;
+    cursor: pointer;
+    transition: all 500ms;
+}
+
+a.add-product-button:hover {
+    background: #E0E5FF;
+}
+
+div.orders-link-wrap {
+    margin: 24px 0 0;
+    display: flex;
+    justify-content: center;
+}
+
+div.orders-link-wrap > a {
+    font-size: 20px;
+    line-height: 24px;
+    color: royalblue;
+    text-decoration: none;
+    transition: all 500ms;
+}
+
+div.orders-link-wrap > a:hover {
+    filter: brightness(70%);
+}
+
+div.orders-wrap > span {
+    font-size: 32px;
+    line-height: 36px;
+    color: #242436;
+}
+
+a.pr-name {
+    color: royalblue;
+    text-decoration: none;
+    transition: all 500ms;
+}
+
+a.pr-name:hover {
+    filter: brightness(70%);
+}
+
+li.selling {
+    font-size: 20px;
+    line-height: 24px;
+    padding-bottom: 12px;
+    margin-bottom: 12px;
+    color: #242436;
+}
+
+li.selling:not(:last-child) {
+    border-bottom: 1px solid #E0E5FF;
+}
+
+div.flex-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+

@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en" class="h-100">
+<head>
+  <meta charset="utf-8">
+    <title>BMSTU</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/order_element.css' %}">
+</head>
+<body>
+    <div>Hello MY students!</div>
+    <div>This day - {{ data.current_date }} - is the day I become the ruler of the world!</div>
+    <ol>
+        {% for item in data.list %}
+            <li>
+            {% if item == 'Joe Biden' %}
+                Today our target shall be {{ item }}
+                {% elif item == 'his wife' %}
+                Then our target shall be {{ item }}
+                {% else %}
+                Finally our target shall be {{ item }}
+            {% endif %}
+            </li>
+        {% endfor %}
+    </ol>
+</body>
+</html>

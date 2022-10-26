@@ -1,0 +1,10 @@
+li {
+    background: #4f4f4f;
+    border: 2px dashed green;
+    border-radius: 10px;
+    color: white;
+}
+
+body {
+    background: darksalmon;
+}

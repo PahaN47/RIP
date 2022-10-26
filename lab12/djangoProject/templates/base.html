@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en" class="h-100">
+<head>
+  <meta charset="utf-8">
+    <title>{% block title %}{% endblock %}</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}">
+</head>
+<body>
+    <div class="content-wrap">
+        <div class="main-title-wrap">
+            <a href="/">ОНЛАЙН-СУПЕРМАРКЕТ</a>
+        </div>
+        <div class="orders-link-wrap">
+            <a href="/orders">
+                Мои заказы
+            </a>
+        </div>
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>
