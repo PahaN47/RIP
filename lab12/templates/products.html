@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="products-wrap">
+        {% for product in data.products %}
+            <div class="product-item-wrap">
+                <a href="../product/{{ product.id }}"></a>
+                <div class="product-item-image-wrap">
+                    <img src="{{ product.image_url }}">
+                </div>
+                <div class="product-item-desc-wrap">
+                    <span>
+                        {{ product.name }}
+                    </span>
+                    <div class="product-item-price-tag">
+                        {% load filters %}
+                        {{ product.price }} ₽
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
