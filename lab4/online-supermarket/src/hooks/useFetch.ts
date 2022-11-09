@@ -5,8 +5,8 @@ export const useFetch = <T>(url: string) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const getData = useCallback(
-    async () =>
-      await fetch(url)
+    async (thisUrl = url) =>
+      await fetch(thisUrl)
         .then(async (resp) => resp.json())
         .catch((err) => {
           console.log({ err });
@@ -16,10 +16,13 @@ export const useFetch = <T>(url: string) => {
     [url]
   );
 
-  const fetchData = useCallback(() => {
-    setIsLoading(true);
-    getData().then((data) => setData(data as unknown as T));
-  }, [getData, setData]);
+  const fetchData = useCallback(
+    (thisUrl = url) => {
+      setIsLoading(true);
+      getData(thisUrl).then((data) => setData(data as unknown as T));
+    },
+    [getData, setData]
+  );
 
   useEffect(() => {
     if (!data) {

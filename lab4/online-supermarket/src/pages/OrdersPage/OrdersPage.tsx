@@ -1,5 +1,6 @@
 import React, { useMemo } from "react";
 import {
+  PRODUCTS_LINK,
   PRODUCT_LINK,
   PRODUCT_REQUEST,
   SELLING_PRODUCT_REQUEST,
@@ -42,7 +43,7 @@ export const OrdersPage = () => {
               {selling.bought.map((item: any) => (
                 <div>
                   <ProductLinkStyled
-                    href={`${PRODUCT_LINK}/${item.product.pk}`}
+                    href={`${PRODUCTS_LINK}/${item.product.pk}`}
                   >
                     &ldquo;{item.product.name}&ldquo;
                   </ProductLinkStyled>{" "}

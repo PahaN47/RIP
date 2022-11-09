@@ -1,5 +1,5 @@
-import React from "react";
-import { PRODUCT_LINK } from "../../constant/links";
+import React, { useState } from "react";
+import { PRODUCTS_LINK, PRODUCT_LINK } from "../../constant/links";
 import {
   ProductItemImageWrapStyled,
   ProductItemLinkStyled,
@@ -17,13 +17,13 @@ export const ProductItem = ({
 }: ProductItemProps) => {
   return (
     <ProductItemWrapStyled>
-      <ProductItemLinkStyled href={`${PRODUCT_LINK}/${pk}`} />
+      <ProductItemLinkStyled href={`${PRODUCTS_LINK}/${pk}`} />
       <ProductItemImageWrapStyled>
         <img src={image_url} alt="Nothing" />
       </ProductItemImageWrapStyled>
       <ProductItemNameWrapStyled>
         {name}
-        <ProductItemPriceTag>{price}</ProductItemPriceTag>
+        <ProductItemPriceTag>{price}р.</ProductItemPriceTag>
       </ProductItemNameWrapStyled>
     </ProductItemWrapStyled>
   );
