@@ -38,7 +38,7 @@ export const OrdersPage = () => {
                   product && (
                     <div>
                       <ProductLinkStyled
-                        to={`product/${product.pk}`}
+                        to={`product/${product.id}`}
                         onClick={makeHandleClick(product)}
                       >
                         &ldquo;{product.name}&ldquo;

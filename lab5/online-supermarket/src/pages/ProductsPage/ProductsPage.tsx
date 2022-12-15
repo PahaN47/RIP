@@ -22,7 +22,7 @@ export const ProductsPage = () => {
         (product) =>
           product && (
             <li>
-              <button onClick={makeHandleClick(product.pk)}>
+              <button onClick={makeHandleClick(product.id)}>
                 {product?.name}
               </button>
             </li>

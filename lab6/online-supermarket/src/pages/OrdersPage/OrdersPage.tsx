@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo } from "react";
-import { Product } from "../../constant/types";
+import { Product, SellingStatus } from "../../constant/types";
 import { useAppDispatch, useAppSelector } from "../../store";
 import { getFullOrderList } from "../../store/order/order.actions";
 import { setProduct } from "../../store/product";
@@ -18,7 +18,7 @@ export const OrdersPage = () => {
     if (!fullOrderList.length) {
       dispatch(getFullOrderList());
     }
-  }, []);
+  }, [dispatch, fullOrderList.length]);
 
   const makeHandleClick = useCallback(
     (product?: Product) => () => {
@@ -30,29 +30,31 @@ export const OrdersPage = () => {
   const renderedItems = useMemo(() => {
     return (
       <ul>
-        {fullOrderList.map((selling) => (
-          <OrderElementStyled>
-            <div>
-              {selling.products.map(
-                ({ product, count }) =>
-                  product && (
-                    <div>
-                      <ProductLinkStyled
-                        to={`product/${product.pk}`}
-                        onClick={makeHandleClick(product)}
-                      >
-                        &ldquo;{product.name}&ldquo;
-                      </ProductLinkStyled>{" "}
-                      {` X${count}`}
-                    </div>
-                  )
-              )}
-            </div>
-          </OrderElementStyled>
-        ))}
+        {fullOrderList
+          .filter((selling) => selling.status !== SellingStatus.PENDING)
+          .map((selling) => (
+            <OrderElementStyled>
+              <div>
+                {selling.products.map(
+                  ({ product, count }) =>
+                    product && (
+                      <div>
+                        <ProductLinkStyled
+                          to={`product/${product.id}`}
+                          onClick={makeHandleClick(product)}
+                        >
+                          &ldquo;{product.name}&ldquo;
+                        </ProductLinkStyled>{" "}
+                        {` X${count}`}
+                      </div>
+                    )
+                )}
+              </div>
+            </OrderElementStyled>
+          ))}
       </ul>
     );
-  }, [fullOrderList]);
+  }, [fullOrderList, makeHandleClick]);
 
   return (
     <OrdersWrapStyled>

@@ -7,9 +7,9 @@ import { PRODUCT_SLICE } from "../const";
 
 export const getProduct = createAsyncThunk<Product, number, AsyncThunkConfig>(
   `${PRODUCT_SLICE}/GET`,
-  async (pk) =>
+  async (id) =>
     (await (
-      await axios.get(`${PRODUCT_REQUEST}${pk}/`)
+      await axios.get(`${PRODUCT_REQUEST}${id}/`)
     ).data) as Product
 );
 

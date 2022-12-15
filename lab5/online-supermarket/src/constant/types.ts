@@ -1,5 +1,5 @@
 export type Product = {
-  pk?: number;
+  id?: number;
   name: string;
   price: number;
   rating: number;
@@ -7,7 +7,7 @@ export type Product = {
 };
 
 export type Selling = {
-  pk?: number;
+  id?: number;
   customer_id: number;
   status?: string;
   created_date: string;
@@ -16,7 +16,7 @@ export type Selling = {
 };
 
 export type SellingProduct = {
-  pk?: number;
+  id?: number;
   selling_id?: number;
   product_id?: number;
   count: number;

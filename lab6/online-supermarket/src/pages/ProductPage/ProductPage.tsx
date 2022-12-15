@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useCallback, useEffect, useMemo } from "react";
 import {
   AddProductButton,
   FlexWrapStyled,
@@ -14,9 +14,11 @@ import star from "../../assets/star.png";
 import { useAppDispatch, useAppSelector } from "../../store";
 import { useLocation } from "react-router";
 import { getProduct } from "../../store/product/product.actions";
+import { addToCart } from "../../store/order/order.actions";
 
 export const ProductPage = () => {
   const { product } = useAppSelector((state) => state.product);
+  const { cartSelling } = useAppSelector((state) => state.order);
 
   const dispatch = useAppDispatch();
   const { pathname } = useLocation();
@@ -25,7 +27,12 @@ export const ProductPage = () => {
     if (!product) {
       dispatch(getProduct(+pathname.slice(pathname.lastIndexOf("/") + 1)));
     }
-  }, []);
+  }, [dispatch, pathname, product]);
+
+  useEffect(
+    () => console.log({ cartSelling, product }),
+    [cartSelling, product]
+  );
 
   const stars = useMemo(() => {
     const arr1 = new Array(product?.rating ?? 0).fill(1);
@@ -42,6 +49,14 @@ export const ProductPage = () => {
     );
   }, [product]);
 
+  const handleAddToCartClick = useCallback(() => {
+    if (cartSelling) {
+      dispatch(
+        addToCart({ cartId: cartSelling.id ?? 0, productId: product?.id ?? 0 })
+      );
+    }
+  }, [cartSelling, dispatch, product?.id]);
+
   return (
     <ProductWrapStyled>
       <ProductImageWrapStyled>
@@ -54,7 +69,9 @@ export const ProductPage = () => {
         </FlexWrapStyled>
         <FlexWrapStyled>
           <ProductPriceTag>{product?.price} руб.</ProductPriceTag>
-          <AddProductButton>Добавить в корзину</AddProductButton>
+          <AddProductButton onClick={handleAddToCartClick}>
+            Добавить в корзину
+          </AddProductButton>
         </FlexWrapStyled>
       </ProductDescWrapStyled>
     </ProductWrapStyled>

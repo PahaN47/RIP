@@ -1,5 +1,12 @@
+export enum SellingStatus {
+  PENDING = "pending",
+  PAID = "paid",
+  DELIVERED = "delivered",
+  CANCELED = "canceled",
+}
+
 export type Product = {
-  pk?: number;
+  id?: number;
   name: string;
   price: number;
   rating: number;
@@ -7,17 +14,23 @@ export type Product = {
 };
 
 export type Selling = {
-  pk?: number;
+  id?: number;
   customer_id: number;
-  status?: string;
+  status?: SellingStatus;
   created_date: string;
   canceled_date?: string;
   delivered_date?: string;
 };
 
 export type SellingProduct = {
-  pk?: number;
+  id?: number;
   selling_id?: number;
   product_id?: number;
   count: number;
+};
+
+export type ProductQueryParams = {
+  min_price?: number;
+  max_price?: number;
+  name?: string;
 };

@@ -1,13 +1,17 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Product } from "../../constant/types";
 import { LoadingStatus, PRODUCT_SLICE } from "../const";
-import { getProduct, getProductList } from "./product.actions";
+import { getPriceRange, getProduct, getProductList } from "./product.actions";
 import { ProductState } from "./product.types";
 
 const initialState: ProductState = {
   product: undefined,
   loadingStatus: LoadingStatus.IDLE,
   productList: [],
+  priceRange: {
+    topPrice: -1,
+    bottomPrice: -1,
+  },
 };
 
 export const productSlice = createSlice({
@@ -36,7 +40,6 @@ export const productSlice = createSlice({
     });
     builder.addCase(getProduct.rejected, (state) => {
       state.loadingStatus = LoadingStatus.REJECTED;
-      state.product = undefined;
     });
     builder.addCase(getProductList.pending, (state) => {
       state.loadingStatus = LoadingStatus.PENDING;
@@ -47,7 +50,16 @@ export const productSlice = createSlice({
     });
     builder.addCase(getProductList.rejected, (state) => {
       state.loadingStatus = LoadingStatus.REJECTED;
-      state.productList = [];
+    });
+    builder.addCase(getPriceRange.pending, (state) => {
+      state.loadingStatus = LoadingStatus.PENDING;
+    });
+    builder.addCase(getPriceRange.fulfilled, (state, { payload }) => {
+      state.loadingStatus = LoadingStatus.FULFILLED;
+      state.priceRange = payload;
+    });
+    builder.addCase(getPriceRange.rejected, (state) => {
+      state.loadingStatus = LoadingStatus.REJECTED;
     });
   },
 });

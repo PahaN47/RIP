@@ -20,7 +20,7 @@ export const getFullOrderList = createAsyncThunk<
   console.log(spList);
   const sellingList = (await axios.get(SELLING_REQUEST)).data as Selling[];
   const productList = (await axios.get(PRODUCT_REQUEST)).data as Product[];
-  const sellingPk: {
+  const sellingId: {
     [key in number]: {
       product_ids: { count: number; product_id: number }[];
     };
@@ -28,17 +28,17 @@ export const getFullOrderList = createAsyncThunk<
 
   spList.forEach(({ selling_id, product_id, count }) => {
     if (selling_id) {
-      if (!sellingPk[selling_id]) sellingPk[selling_id] = { product_ids: [] };
+      if (!sellingId[selling_id]) sellingId[selling_id] = { product_ids: [] };
       if (product_id)
-        sellingPk[selling_id].product_ids.push({ count, product_id });
+        sellingId[selling_id].product_ids.push({ count, product_id });
     }
   });
 
-  return Object.entries(sellingPk).map(([selling_id, { product_ids }]) => {
-    const selling = sellingList.find((value) => value.pk === +selling_id);
+  return Object.entries(sellingId).map(([selling_id, { product_ids }]) => {
+    const selling = sellingList.find((value) => value.id === +selling_id);
     const products = product_ids.map(({ product_id, count }) => {
       return {
-        product: productList.find((value) => value.pk === +product_id),
+        product: productList.find((value) => value.id === +product_id),
         count,
       };
     });

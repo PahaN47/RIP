@@ -17,6 +17,6 @@ class Selling(models.Model):
 
 
 class SellingProduct(models.Model):
-    selling_id = models.ForeignKey(Selling, on_delete=models.CASCADE)
-    product_id = models.ForeignKey(Product, on_delete=models.CASCADE)
+    selling = models.ForeignKey(Selling, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
     count = models.IntegerField()

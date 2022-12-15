@@ -5,16 +5,16 @@ from rest_framework import serializers
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
-        fields = ['pk', 'name', 'price', 'rating', 'image_url']
+        fields = ['id', 'name', 'price', 'rating', 'image_url']
 
 
 class SellingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Selling
-        fields = ['pk', 'customer_id', 'status', 'created_date', 'canceled_date', 'delivered_date']
+        fields = ['id', 'customer_id', 'status', 'created_date', 'canceled_date', 'delivered_date']
 
 
 class SellingProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = SellingProduct
-        fields = ['pk', 'selling_id', 'product_id', 'count']
+        fields = ['id', 'selling_id', 'product_id', 'count']

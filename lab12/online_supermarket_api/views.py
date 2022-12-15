@@ -34,10 +34,10 @@ def GetOrders(request):
         sps.append(model_to_dict(item))
     result = {}
     for i in range(len(sps)):
-        result[str(sps[i]['selling_id'])] = {'count': sps[i]['count'], 'products': []}
+        result[str(sps[i]['selling'])] = {'count': sps[i]['count'], 'products': []}
     for i in range(len(sps)):
-        product = model_to_dict(Product.objects.filter(id=sps[i]['product_id'])[0])
-        result[str(sps[i]['selling_id'])]['products'].append({ 'count': sps[i]['count'], 'product': product })
+        product = model_to_dict(Product.objects.filter(id=sps[i]['product'])[0])
+        result[str(sps[i]['selling'])]['products'].append({ 'count': sps[i]['count'], 'product': product })
     data = []
     for key in result:
         data.append(result[key])

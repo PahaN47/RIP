@@ -9,14 +9,15 @@ import {
 import { ProductItemProps } from "./ProductItem.types";
 
 export const ProductItem = ({
-  pk,
+  id,
   name,
   price,
   image_url,
+  onClick,
 }: ProductItemProps) => {
   return (
     <ProductItemWrapStyled>
-      <ProductItemLinkStyled to={`/products/${pk}`} />
+      <ProductItemLinkStyled to={`/products/${id}`} onClick={onClick} />
       <ProductItemImageWrapStyled>
         <img src={image_url} alt="Nothing" />
       </ProductItemImageWrapStyled>
