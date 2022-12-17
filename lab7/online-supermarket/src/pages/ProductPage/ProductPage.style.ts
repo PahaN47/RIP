@@ -79,7 +79,7 @@ export const ProductPriceTag = styled.div`
   color: #efefff;
 `;
 
-export const AddProductButton = styled.a`
+export const AddProductButton = styled.button`
   margin-top: 24px;
   padding: 16px 32px;
   font-size: 24px;
@@ -89,8 +89,13 @@ export const AddProductButton = styled.a`
   border: 1px solid royalblue;
   cursor: pointer;
   transition: all 500ms;
+  background: none;
 
-  &:hover {
+  &:not(:disabled):hover {
     background: #e0e5ff;
+  }
+
+  &:disabled {
+    opacity: 0.7;
   }
 `;

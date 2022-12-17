@@ -34,3 +34,8 @@ export type ProductQueryParams = {
   max_price?: number;
   name?: string;
 };
+
+export type UserState = {
+  id: number;
+  username: string;
+};

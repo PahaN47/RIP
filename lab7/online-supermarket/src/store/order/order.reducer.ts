@@ -2,6 +2,10 @@ import { createSlice } from "@reduxjs/toolkit";
 import { LoadingStatus, ORDER_SLICE } from "../const";
 import {
   addToCart,
+  authByCookie,
+  authLogin,
+  authLogout,
+  authRegister,
   createCart,
   deleteFromCart,
   deleteSellingProduct,
@@ -20,6 +24,10 @@ const initialState: OrderState = {
   cartItems: [],
   cartSelling: undefined,
   cartFound: true,
+  user: undefined,
+  authError: false,
+  cookieAuthError: false,
+  orderListEmpty: false,
 };
 
 export const productSlice = createSlice({
@@ -37,6 +45,7 @@ export const productSlice = createSlice({
     builder.addCase(getFullOrderList.fulfilled, (state, { payload }) => {
       state.loadingStatus = LoadingStatus.FULFILLED;
       state.fullOrderList = payload;
+      state.orderListEmpty = !payload.length;
     });
     builder.addCase(getFullOrderList.rejected, (state) => {
       state.loadingStatus = LoadingStatus.REJECTED;
@@ -124,9 +133,57 @@ export const productSlice = createSlice({
       state.cartItems = [];
       state.cartSelling = undefined;
       state.cartFound = false;
+      state.fullOrderList = [];
     });
     builder.addCase(payForCart.rejected, (state) => {
       state.loadingStatus = LoadingStatus.REJECTED;
+    });
+    builder.addCase(authLogin.pending, (state) => {
+      state.loadingStatus = LoadingStatus.PENDING;
+    });
+    builder.addCase(authLogin.fulfilled, (state, { payload }) => {
+      state.loadingStatus = LoadingStatus.FULFILLED;
+      state.user = payload;
+      state.authError = false;
+    });
+    builder.addCase(authLogin.rejected, (state) => {
+      state.loadingStatus = LoadingStatus.REJECTED;
+      state.authError = true;
+    });
+    builder.addCase(authByCookie.pending, (state) => {
+      state.loadingStatus = LoadingStatus.PENDING;
+    });
+    builder.addCase(authByCookie.fulfilled, (state, { payload }) => {
+      state.loadingStatus = LoadingStatus.FULFILLED;
+      state.user = payload;
+      state.cookieAuthError = false;
+    });
+    builder.addCase(authByCookie.rejected, (state) => {
+      state.loadingStatus = LoadingStatus.REJECTED;
+      state.cookieAuthError = true;
+    });
+    builder.addCase(authRegister.pending, (state) => {
+      state.loadingStatus = LoadingStatus.PENDING;
+    });
+    builder.addCase(authRegister.fulfilled, (state, { payload }) => {
+      state.loadingStatus = LoadingStatus.FULFILLED;
+      state.user = payload;
+      state.authError = false;
+    });
+    builder.addCase(authRegister.rejected, (state) => {
+      state.loadingStatus = LoadingStatus.REJECTED;
+      state.authError = true;
+    });
+    builder.addCase(authLogout.pending, (state) => {
+      state.loadingStatus = LoadingStatus.PENDING;
+    });
+    builder.addCase(authLogout.fulfilled, (state) => {
+      state.loadingStatus = LoadingStatus.FULFILLED;
+      state.user = undefined;
+    });
+    builder.addCase(authLogout.rejected, (state) => {
+      state.loadingStatus = LoadingStatus.REJECTED;
+      state.user = undefined;
     });
   },
 });

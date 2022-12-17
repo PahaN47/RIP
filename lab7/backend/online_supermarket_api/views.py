@@ -1,3 +1,4 @@
+import logging
 import uuid
 
 from django.contrib.auth import authenticate
@@ -43,8 +44,16 @@ class ProductViewSet(viewsets.ModelViewSet):
 
 
 class SellingViewSet(viewsets.ModelViewSet):
-    queryset = Selling.objects.all().order_by('pk')
+    queryset = Selling.objects.none()
     serializer_class = SellingSerializer
+
+    def get_queryset(self):
+        session_id = self.request.COOKIES.get('session_id')
+        if session_id:
+            user_id = session_storage.get(session_id)
+            if user_id:
+                return Selling.objects.filter(customer_id=user_id).order_by('pk')
+        return Selling.objects.none()
 
     @action(detail=True, methods=['get'])
     def get_cart(self, request, customer_id):
@@ -113,36 +122,32 @@ class SellingProductViewSet(viewsets.ModelViewSet):
         return JsonResponse(resp, safe=False)
 
 
-@csrf_exempt
 @api_view(['post'])
 def auth_login(request):
-    if not request.COOKIES.get('session_id'):
-        username = request.data.get('username')
-        password = request.data.get('password')
-        user = authenticate(request, username=username, password=password)
-        if user:
-            new_key = str(uuid.uuid4())
-            session_storage.set(new_key, username)
+    session_id = request.COOKIES.get('session_id')
+    if session_id:
+        user_id = session_storage.get(session_id)
+        logging.basicConfig(
+            level=logging.DEBUG)
+        logging.debug(f'    username: {user_id}')
+        if user_id:
+            user = User.objects.get(id=user_id)
             response_user = {
                 'id': user.id,
                 'username': user.username,
             }
             response = Response(response_user)
-            response.set_cookie('session_id', new_key)
             return response
-    return HttpResponse('Invalid credentials or already logged in', status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
-
-@csrf_exempt
-@api_view(['post'])
-def auth_create(request):
+        else:
+            response = HttpResponse('Invalid session', status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            response.delete_cookie('session_id')
+            return response
     username = request.data.get('username')
     password = request.data.get('password')
-    user = User.objects.create_user(username=username, password=password)
-    user.save()
+    user = authenticate(request, username=username, password=password)
     if user:
         new_key = str(uuid.uuid4())
-        session_storage.set(new_key, username)
+        session_storage.set(new_key, user.id)
         response_user = {
             'id': user.id,
             'username': user.username,
@@ -150,10 +155,33 @@ def auth_create(request):
         response = Response(response_user)
         response.set_cookie('session_id', new_key)
         return response
+    return HttpResponse('Invalid credentials', status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+@api_view(['post'])
+def auth_create(request):
+    username = request.data.get('username')
+    password = request.data.get('password')
+    try:
+        user = User.objects.get(username=username)
+    except User.DoesNotExist:
+        user = None
+    if not user:
+        user = User.objects.create_user(username=username, password=password)
+        user.save()
+        if user:
+            new_key = str(uuid.uuid4())
+            session_storage.set(new_key, user.id)
+            response_user = {
+                'id': user.id,
+                'username': user.username,
+            }
+            response = Response(response_user)
+            response.set_cookie('session_id', new_key)
+            return response
     return HttpResponse('Can not create user', status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
-@csrf_exempt
 @api_view(['post'])
 def auth_logout(request):
     session_id = request.COOKIES.get('session_id')

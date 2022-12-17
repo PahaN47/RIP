@@ -1,4 +1,9 @@
-import { Product, Selling, SellingProduct } from "../../constant/types";
+import {
+  Product,
+  Selling,
+  SellingProduct,
+  UserState,
+} from "../../constant/types";
 import { LoadingStatus } from "../const";
 
 export type FullOrder = Partial<Selling> & {
@@ -16,4 +21,13 @@ export type OrderState = {
   cartItems: SellingProductPopulated[];
   cartSelling?: Selling;
   cartFound: boolean;
+  user?: UserState;
+  authError: boolean;
+  cookieAuthError: boolean;
+  orderListEmpty: boolean;
+};
+
+export type UserAuth = {
+  username: string;
+  password: string;
 };

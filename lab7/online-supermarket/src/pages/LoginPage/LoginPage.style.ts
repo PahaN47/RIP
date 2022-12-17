@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 export const LoginPageStyled = styled.div`
   width: 100%;
@@ -22,7 +22,7 @@ export const LoginWrapStyled = styled.div`
   width: 400px;
 `;
 
-export const LoginInputStyled = styled.input`
+export const LoginInputStyled = styled.input<{ error?: boolean }>`
   border: 1px solid #0000301a;
   color: #242436;
   font-size: 16px;
@@ -34,6 +34,12 @@ export const LoginInputStyled = styled.input`
   &:focus-visible {
     outline: none;
   }
+
+  ${({ error }) =>
+    error &&
+    css`
+      border-color: red;
+    `}
 `;
 
 export const LoginInputWrapStyled = styled.div`
@@ -54,4 +60,11 @@ export const LoginButtonStyled = styled.button`
   color: #efefff;
   border: none;
   width: 100%;
+`;
+
+export const ChangeLoginButtonStyled = styled.button`
+  font-size: 16px;
+  color: royalblue;
+  border: none;
+  background: none;
 `;

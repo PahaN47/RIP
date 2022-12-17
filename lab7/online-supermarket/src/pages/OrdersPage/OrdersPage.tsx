@@ -11,14 +11,16 @@ import {
 } from "./OrdersPage.styles";
 
 export const OrdersPage = () => {
-  const { fullOrderList } = useAppSelector((state) => state.order);
+  const { fullOrderList, orderListEmpty } = useAppSelector(
+    (state) => state.order
+  );
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (!fullOrderList.length) {
+    if (!fullOrderList.length && !orderListEmpty) {
       dispatch(getFullOrderList());
     }
-  }, [dispatch, fullOrderList.length]);
+  }, [dispatch, fullOrderList.length, orderListEmpty]);
 
   const makeHandleClick = useCallback(
     (product?: Product) => () => {

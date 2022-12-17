@@ -18,7 +18,7 @@ import { addToCart } from "../../store/order/order.actions";
 
 export const ProductPage = () => {
   const { product } = useAppSelector((state) => state.product);
-  const { cartSelling } = useAppSelector((state) => state.order);
+  const { cartSelling, user } = useAppSelector((state) => state.order);
 
   const dispatch = useAppDispatch();
   const { pathname } = useLocation();
@@ -69,7 +69,7 @@ export const ProductPage = () => {
         </FlexWrapStyled>
         <FlexWrapStyled>
           <ProductPriceTag>{product?.price} руб.</ProductPriceTag>
-          <AddProductButton onClick={handleAddToCartClick}>
+          <AddProductButton onClick={handleAddToCartClick} disabled={!user}>
             Добавить в корзину
           </AddProductButton>
         </FlexWrapStyled>

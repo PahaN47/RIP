@@ -48,6 +48,18 @@ export const OrdersLinkStyled = styled(Link)`
   }
 `;
 
+export const OrdersLogoutLinkStyled = styled.a`
+  font-size: 20px;
+  line-height: 24px;
+  color: royalblue;
+  text-decoration: none;
+  transition: all 500ms;
+
+  &:hover {
+    filter: brightness(70%);
+  }
+`;
+
 export const BreadCrumbsWrapStyled = styled.div`
   margin-bottom: 24px;
 `;

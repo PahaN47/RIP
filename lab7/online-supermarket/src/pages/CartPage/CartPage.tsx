@@ -1,21 +1,28 @@
 import React, { useCallback, useEffect, useMemo } from "react";
 import { CartItem } from "../../components/CartItem";
 import { useAppDispatch, useAppSelector } from "../../store";
-import { getCartItems, payForCart } from "../../store/order/order.actions";
+import {
+  getCart,
+  getCartItems,
+  payForCart,
+} from "../../store/order/order.actions";
 import { CartPageStyled, PayButtonStyled } from "./CartPage.style";
 
 import "./CartPage.style.ts";
 
 export const CartPage = () => {
-  const { cartItems, cartSelling } = useAppSelector((state) => state.order);
+  const { cartItems, cartSelling, user } = useAppSelector(
+    (state) => state.order
+  );
   const dispatch = useAppDispatch();
 
   useEffect(
     () => () => {
       if (!cartItems.length && cartSelling?.id)
         dispatch(getCartItems(cartSelling.id));
+      if (!cartSelling && user) dispatch(getCart(user.id));
     },
-    []
+    [cartItems.length, cartSelling, cartSelling?.id, dispatch, user]
   );
 
   const cartItemsRender = useMemo(

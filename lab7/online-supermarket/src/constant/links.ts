@@ -15,3 +15,4 @@ export const ADD_TO_CART_REQUEST = `${SELLING_PRODUCT_REQUEST}add-to-cart`;
 export const GET_CART_REQUEST = `${SELLING_REQUEST}get-cart`;
 export const GET_CART_ITEMS_REQUEST = `${SELLING_PRODUCT_REQUEST}get-cart-items`;
 export const DELETE_FROM_CART_REQUEST = `${SELLING_PRODUCT_REQUEST}delete-from-cart`;
+export const AUTH_REQUEST = `${API_LINK}/auth/`;

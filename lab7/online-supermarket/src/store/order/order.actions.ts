@@ -3,6 +3,7 @@ import axios from "axios";
 import { AsyncThunkConfig } from "..";
 import {
   ADD_TO_CART_REQUEST,
+  AUTH_REQUEST,
   DELETE_FROM_CART_REQUEST,
   GET_CART_ITEMS_REQUEST,
   GET_CART_REQUEST,
@@ -15,9 +16,12 @@ import {
   Selling,
   SellingProduct,
   SellingStatus,
+  UserState,
 } from "../../constant/types";
 import { ORDER_SLICE } from "../const";
-import { FullOrder, SellingProductPopulated } from "./order.types";
+import { FullOrder, SellingProductPopulated, UserAuth } from "./order.types";
+
+axios.defaults.withCredentials = true;
 
 export const getFullOrderList = createAsyncThunk<
   FullOrder[],
@@ -43,19 +47,22 @@ export const getFullOrderList = createAsyncThunk<
     }
   });
 
-  return Object.entries(sellingId).map(([selling_id, { product_ids }]) => {
-    const selling = sellingList.find((value) => value.id === +selling_id);
-    const products = product_ids.map(({ product_id, count }) => {
+  return Object.entries(sellingId)
+    .map(([selling_id, { product_ids }]) => {
+      const selling = sellingList.find((value) => value.id === +selling_id);
+      if (!selling) return undefined;
+      const products = product_ids.map(({ product_id, count }) => {
+        return {
+          product: productList.find((value) => value.id === +product_id),
+          count,
+        };
+      });
       return {
-        product: productList.find((value) => value.id === +product_id),
-        count,
+        ...selling,
+        products,
       };
-    });
-    return {
-      ...selling,
-      products,
-    };
-  });
+    })
+    .filter((item) => item) as FullOrder[];
 });
 
 export const getSellingProductList = createAsyncThunk<
@@ -88,8 +95,11 @@ export const getCart = createAsyncThunk<Selling, number, AsyncThunkConfig>(
 export const createCart = createAsyncThunk<Selling, number, AsyncThunkConfig>(
   `${ORDER_SLICE}/CREATE_CART`,
   async (customerId: number) =>
-    (await axios.post(`${SELLING_REQUEST}`, { customer_id: customerId }))
-      .data as Selling
+    (
+      await axios.post(`${SELLING_REQUEST}`, {
+        customer_id: customerId,
+      })
+    ).data as Selling
 );
 
 export const addToCart = createAsyncThunk<
@@ -137,3 +147,64 @@ export const payForCart = createAsyncThunk<undefined, number, AsyncThunkConfig>(
       status: SellingStatus.PAID,
     })
 );
+
+export const authLogin = createAsyncThunk<
+  UserState,
+  UserAuth,
+  AsyncThunkConfig
+>(`${ORDER_SLICE}/AUTH_LOGIN`, async ({ username, password }, thunkApi) => {
+  try {
+    const response = await axios.post(`${AUTH_REQUEST}login/`, {
+      username,
+      password,
+    });
+    return response?.data as UserState;
+  } catch (err) {
+    console.log(err);
+    return thunkApi.rejectWithValue(err);
+  }
+});
+
+export const authByCookie = createAsyncThunk<
+  UserState,
+  undefined,
+  AsyncThunkConfig
+>(`${ORDER_SLICE}/AUTH_COOKIE`, async (value, thunkApi) => {
+  try {
+    const response = await axios.post(`${AUTH_REQUEST}login/`);
+    return response?.data as UserState;
+  } catch (err) {
+    console.log(err);
+    return thunkApi.rejectWithValue(err);
+  }
+});
+
+export const authRegister = createAsyncThunk<
+  UserState,
+  UserAuth,
+  AsyncThunkConfig
+>(`${ORDER_SLICE}/AUTH_REGISTER`, async ({ username, password }, thunkApi) => {
+  try {
+    const response = await axios.post(`${AUTH_REQUEST}create/`, {
+      username,
+      password,
+    });
+    return response?.data as UserState;
+  } catch (err) {
+    console.log(err);
+    return thunkApi.rejectWithValue(err);
+  }
+});
+
+export const authLogout = createAsyncThunk<
+  undefined,
+  undefined,
+  AsyncThunkConfig
+>(`${ORDER_SLICE}/AUTH_LOGOUT`, async (value, thunkApi) => {
+  try {
+    await axios.post(`${AUTH_REQUEST}logout/`);
+  } catch (err) {
+    console.log(err);
+    return thunkApi.rejectWithValue(err);
+  }
+});
