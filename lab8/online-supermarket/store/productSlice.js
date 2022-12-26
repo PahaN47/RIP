@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { deleteProduct, patchProduct, postProduct } from "./productActions";
 
 const initialState = {
   productList: [],
@@ -16,8 +17,19 @@ export const productSlice = createSlice({
       state.product = payload;
     },
     resetProduct: (state) => {
-      state.product = {};
+      state.product = undefined;
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(postProduct.fulfilled, (state, { payload }) => {
+      state.product = payload;
+    });
+    builder.addCase(patchProduct.fulfilled, (state, { payload }) => {
+      state.product = { ...payload };
+    });
+    builder.addCase(deleteProduct.fulfilled, (state) => {
+      state.product = undefined;
+    });
   },
 });
 

@@ -1,15 +1,17 @@
-import { View, Dimensions, ScrollView } from "react-native";
+import { View, Dimensions, ScrollView, Button, Alert } from "react-native";
 import React, { useCallback, useEffect, useMemo } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
-import { setProductList } from "../../store/productSlice";
+import { setProductList, setProduct } from "../../store/productSlice";
 import { ProductItem } from "../../components/ProductItem";
 import { axiosInstance } from "../../axios";
 import { StyleSheet } from "react-native";
+import { useIsFocused } from "@react-navigation/native";
 
 export const ProductListScreen = ({ navigation }) => {
   const dispatch = useDispatch();
-  const { productList } = useSelector((store) => store.product);
+  const { productList, product } = useSelector((store) => store.product);
+  const isFocused = useIsFocused();
 
   useEffect(() => {
     async function getAllProducts() {
@@ -17,20 +19,26 @@ export const ProductListScreen = ({ navigation }) => {
         .get("/product")
         .then((response) => dispatch(setProductList(response?.data)));
     }
-    if (!productList.length) getAllProducts();
-  }, [dispatch, productList]);
+    if (isFocused) getAllProducts();
+  }, [dispatch, isFocused, product]);
 
   const productItems = useMemo(
     () =>
       productList.map((product) => (
         <ProductItem key={product.id} navigation={navigation} {...product} />
       )),
-    [productList]
+    [productList, navigation]
   );
+
+  const handleAddPress = useCallback(() => {
+    dispatch(setProduct(undefined));
+    navigation.navigate("Product", { isCreate: true });
+  }, [navigation, dispatch]);
 
   return (
     <ScrollView>
       <View style={styles.container}>{productItems}</View>
+      <Button title="Создать" onPress={handleAddPress} />
     </ScrollView>
   );
 };

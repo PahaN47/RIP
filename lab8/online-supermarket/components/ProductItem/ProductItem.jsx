@@ -1,14 +1,15 @@
-import { View, Text, StyleSheet, Pressable, Image } from "react-native";
+import { View, Text, StyleSheet, Pressable, Image, Alert } from "react-native";
 import React, { useCallback } from "react";
 import { useDispatch } from "react-redux";
 import { setProduct } from "../../store/productSlice";
 
 export const ProductItem = ({ navigation, ...product }) => {
   const dispatch = useDispatch();
+
   const handlePress = useCallback(() => {
     navigation.navigate("Product");
     dispatch(setProduct(product));
-  }, [navigation]);
+  }, [navigation, product]);
 
   return (
     <View style={styles.container}>
